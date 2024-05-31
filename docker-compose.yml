@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:15.0
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: salesdb
+    ports:
+      - "5432:5432"
+    networks:
+        - sales-app-network
+networks:
+  sales-app-network:
