@@ -11,7 +11,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({ FIELD})
 @Retention(RUNTIME)
+<<<<<<< HEAD
 @Constraint(validatedBy = {ValidatorCommentDate.class})
+=======
+<<<<<<< HEAD
+@Constraint(validatedBy = {ValidatorCommentDate.class})
+=======
+@Constraint(validatedBy = {ValidatorBirthYear.class})
+>>>>>>> ae3eca8 (update service and upload image to S3, Cloudinary)
+>>>>>>> fc45643 (update service and upload image to S3, Cloudinary)
 public @interface VatidatorYear {
     String message() default "Invalid year";
 

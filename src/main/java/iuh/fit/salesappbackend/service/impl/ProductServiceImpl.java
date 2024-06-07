@@ -1,0 +1,123 @@
+package iuh.fit.salesappbackend.service.impl;
+
+import iuh.fit.salesappbackend.configurations.CloudinaryConfig;
+import iuh.fit.salesappbackend.configurations.S3Config;
+import iuh.fit.salesappbackend.dtos.requests.ProductDto;
+import iuh.fit.salesappbackend.exceptions.DataExistsException;
+import iuh.fit.salesappbackend.exceptions.DataNotFoundException;
+import iuh.fit.salesappbackend.mappers.ProductMapper;
+import iuh.fit.salesappbackend.models.Product;
+import iuh.fit.salesappbackend.models.ProductImage;
+import iuh.fit.salesappbackend.repositories.ProductImageRepository;
+import iuh.fit.salesappbackend.repositories.ProductRepository;
+import iuh.fit.salesappbackend.service.interfaces.ProductService;
+import iuh.fit.salesappbackend.utils.CloudinaryUpload;
+import iuh.fit.salesappbackend.utils.S3Upload;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+@Service
+public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implements ProductService {
+
+    private ProductMapper productMapper;
+    private ProductRepository productRepository;
+    private ProductImageRepository productImageRepository;
+    private CloudinaryUpload cloudinaryUpload;
+    private S3Upload s3Upload;
+
+    public ProductServiceImpl(JpaRepository<Product, Long> repository, ProductMapper productMapper) {
+        super(repository);
+    }
+
+    @Autowired
+    public void setProductMapper(ProductMapper productMapper) {
+        this.productMapper = productMapper;
+    }
+
+    @Autowired
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    @Autowired
+    public void setProductImageRepository(ProductImageRepository productImageRepository) {
+        this.productImageRepository = productImageRepository;
+    }
+
+    @Autowired
+    public void setCloudinaryUpload(CloudinaryUpload cloudinaryUpload) {
+        this.cloudinaryUpload = cloudinaryUpload;
+    }
+
+    @Autowired
+    public void setS3Upload(S3Upload s3Upload) {
+        this.s3Upload = s3Upload;
+    }
+
+
+
+    //Upload Cloudinary
+//    @Override
+//    @Transactional(rollbackFor = {DataExistsException.class, DataNotFoundException.class})
+//    public Product save(ProductDto productDto) throws DataExistsException, DataNotFoundException {
+//        if(productRepository.existsByProductName(productDto.getProductName()))
+//           throw new DataExistsException("Product name already exists");
+//        Product product = productMapper.ProductDto2Product(productDto);
+//        product = super.save(product);
+//        if(!productDto.getImages().isEmpty()) {
+//            List<MultipartFile> multipartFiles = productDto.getImages();
+//            for (MultipartFile file : multipartFiles) {
+//                if (!Objects.requireNonNull(file.getContentType()).startsWith("image/")){
+//                    throw new DataExistsException("File is not an image");
+//                }
+//                try {
+//                    String path = cloudinaryUpload.upload(file);
+//                    ProductImage productImage = new ProductImage();
+//                    productImage.setProduct(product);
+//                    productImage.setPath(path);
+//                    productImageRepository.save(productImage);
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        }
+//        return super.save(product);
+//    }
+
+
+    //Upload S3
+    @Override
+    @Transactional(rollbackFor = {DataExistsException.class, DataNotFoundException.class})
+    public Product save(ProductDto productDto) throws DataExistsException, DataNotFoundException {
+        if(productRepository.existsByProductName(productDto.getProductName()))
+            throw new DataExistsException("Product name already exists");
+        Product product = productMapper.ProductDto2Product(productDto);
+        product = super.save(product);
+        if(!productDto.getImages().isEmpty()) {
+            List<MultipartFile> multipartFiles = productDto.getImages();
+            for (MultipartFile file : multipartFiles) {
+                if (!Objects.requireNonNull(file.getContentType()).startsWith("image/")){
+                    throw new DataExistsException("File is not an image");
+                }
+                try {
+                    String path = s3Upload.uploadFile(file);
+                    ProductImage productImage = new ProductImage();
+                    productImage.setProduct(product);
+                    productImage.setPath(path);
+                    productImageRepository.save(productImage);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return super.save(product);
+    }
+}

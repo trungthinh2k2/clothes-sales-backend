@@ -1,8 +1,37 @@
+<<<<<<< HEAD
 version: "3.8"
+=======
+<<<<<<< HEAD
+version: "3.8"
+=======
+#version: "3.8"
+#
+#services:
+#  postgres-db:
+#    container_name: postgres-db
+#    image: postgres:15.0
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: 123456
+#      POSTGRES_DB: salesdb
+#    ports:
+#      - "5432:5432"
+#    networks:
+#        - sales-app-network
+#networks:
+#  sales-app-network:
+
+version: '3.8'
+>>>>>>> ae3eca8 (update service and upload image to S3, Cloudinary)
+>>>>>>> fc45643 (update service and upload image to S3, Cloudinary)
 
 services:
   postgres-db:
     container_name: postgres-db
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> fc45643 (update service and upload image to S3, Cloudinary)
     image: postgres:15.0
     environment:
       POSTGRES_USER: postgres
@@ -13,4 +42,44 @@ services:
     networks:
         - sales-app-network
 networks:
+<<<<<<< HEAD
   sales-app-network:
+=======
+  sales-app-network:
+=======
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      PG_DATABASE: salesdb
+      PG_DATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - sales-app-network
+    restart: unless-stopped
+  postgres-admin:
+    container_name: postgres-admin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - sales-app-network
+    restart: unless-stopped
+
+networks:
+  sales-app-network:
+    driver: bridge
+volumes:
+  postgres:
+  pgadmin:
+>>>>>>> ae3eca8 (update service and upload image to S3, Cloudinary)
+>>>>>>> fc45643 (update service and upload image to S3, Cloudinary)

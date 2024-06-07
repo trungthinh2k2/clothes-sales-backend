@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
+=======
+/src/main/resources/application.yml
+>>>>>>> fc45643 (update service and upload image to S3, Cloudinary)
