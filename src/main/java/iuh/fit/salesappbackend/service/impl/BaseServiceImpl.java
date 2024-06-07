@@ -1,7 +1,5 @@
 package iuh.fit.salesappbackend.service.impl;
 
-import iuh.fit.salesappbackend.models.UserVoucher;
-import iuh.fit.salesappbackend.models.id_classes.UserVoucherId;
 import iuh.fit.salesappbackend.service.interfaces.BaseService;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,7 +1,5 @@
 package iuh.fit.salesappbackend.service.impl;
 
-import iuh.fit.salesappbackend.configurations.CloudinaryConfig;
-import iuh.fit.salesappbackend.configurations.S3Config;
 import iuh.fit.salesappbackend.dtos.requests.ProductDto;
 import iuh.fit.salesappbackend.exceptions.DataExistsException;
 import iuh.fit.salesappbackend.exceptions.DataNotFoundException;
