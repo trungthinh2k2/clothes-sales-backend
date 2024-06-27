@@ -1,6 +1,5 @@
 package iuh.fit.salesappbackend.dtos.requests;
 
-import iuh.fit.salesappbackend.validator.ValidatorDate;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Past;

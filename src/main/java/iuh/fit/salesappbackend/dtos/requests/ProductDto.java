@@ -1,6 +1,5 @@
 package iuh.fit.salesappbackend.dtos.requests;
 
-import iuh.fit.salesappbackend.models.enums.Status;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -20,7 +19,7 @@ public class ProductDto{
     private Double price;
     @NotNull(message = "Description must be not blank")
     private String description;
-    private String thumbnail;
+    private Integer thumbnail;
     @NotNull(message = "Category must be not null")
     private Long categoryId;
     @NotNull(message = "Provider must be not null")

@@ -2,10 +2,6 @@ package iuh.fit.salesappbackend.models;
 
 import iuh.fit.salesappbackend.models.enums.SizeType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.*;
 
 @Entity

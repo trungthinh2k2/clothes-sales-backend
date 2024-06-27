@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/provider")
+@RequestMapping("/api/v1/providers")
 @RequiredArgsConstructor
 public class ProviderController {
 
@@ -34,5 +34,13 @@ public class ProviderController {
                 HttpStatus.OK.value(),
                 "Get all providers successfully",
                 providerService.findAll());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseSuccess<?> deleteProvider(@PathVariable Long id) {
+        providerService.deleteById(id);
+        return new ResponseSuccess<>(
+                HttpStatus.NO_CONTENT.value(),
+                "Delete provider successfully", + id);
     }
 }

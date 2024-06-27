@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/product")
+@RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -25,6 +25,24 @@ public class ProductController {
                 HttpStatus.OK.value(),
                 "Product created successfully",
                 productService.save(productDto)
+        );
+    }
+
+    @GetMapping
+    public ResponseSuccess<?> getAllProducts() {
+        return new ResponseSuccess<>(
+                HttpStatus.OK.value(),
+                "Get all products successfully",
+                productService.findAll()
+        );
+    }
+
+    @GetMapping("/{id}")
+    public ResponseSuccess<?> getProductById(@PathVariable Long id) throws DataNotFoundException {
+        return new ResponseSuccess<>(
+                HttpStatus.OK.value(),
+                "Get product by id successfully",
+                productService.findProductById(id)
         );
     }
 }

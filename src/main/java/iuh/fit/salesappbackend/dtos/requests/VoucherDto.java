@@ -4,7 +4,6 @@ import iuh.fit.salesappbackend.models.enums.Scope;
 import iuh.fit.salesappbackend.models.enums.VoucherType;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

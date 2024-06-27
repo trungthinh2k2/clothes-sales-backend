@@ -2,10 +2,6 @@ package iuh.fit.salesappbackend.models;
 
 import iuh.fit.salesappbackend.models.id_classes.OrderDetailId;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.*;
 @Entity
 @Table(name = "order_datails")

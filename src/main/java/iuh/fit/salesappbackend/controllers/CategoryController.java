@@ -2,6 +2,7 @@ package iuh.fit.salesappbackend.controllers;
 
 import iuh.fit.salesappbackend.dtos.requests.CategoryDto;
 import iuh.fit.salesappbackend.dtos.responses.ResponseSuccess;
+import iuh.fit.salesappbackend.exceptions.DataExistsException;
 import iuh.fit.salesappbackend.mappers.CategoryMapper;
 import iuh.fit.salesappbackend.models.Category;
 import iuh.fit.salesappbackend.service.interfaces.CategoryService;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/category")
+@RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
@@ -22,7 +23,7 @@ public class CategoryController {
 
 
     @PostMapping
-    public ResponseSuccess<?> createAddress(@RequestBody @Valid CategoryDto categoryDto) {
+    public ResponseSuccess<?> createAddress(@RequestBody @Valid CategoryDto categoryDto) throws DataExistsException {
         Category category = categoryMapper.CategoryDto2Category(categoryDto);
         return new ResponseSuccess<>(HttpStatus.OK.value(),
                 "Category created successfully",
@@ -39,7 +40,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseSuccess<?> updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
+    public ResponseSuccess<?> updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto) throws DataExistsException {
         Category category = categoryMapper.CategoryDto2Category(categoryDto);
         category.setId(id);
         return new ResponseSuccess<>(HttpStatus.OK.value(),
