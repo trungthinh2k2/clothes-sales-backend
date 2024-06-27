@@ -2,10 +2,7 @@ package iuh.fit.salesappbackend.dtos.requests;
 
 import iuh.fit.salesappbackend.models.enums.Gender;
 import iuh.fit.salesappbackend.models.enums.Role;
-import iuh.fit.salesappbackend.validator.ValidatorDate;
-import iuh.fit.salesappbackend.validator.VatidatorYear;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;

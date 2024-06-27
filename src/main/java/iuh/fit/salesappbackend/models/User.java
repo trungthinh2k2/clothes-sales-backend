@@ -1,12 +1,5 @@
 package iuh.fit.salesappbackend.models;
 
-import iuh.fit.salesappbackend.models.enums.Gender;
-import iuh.fit.salesappbackend.models.enums.Role;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import iuh.fit.salesappbackend.models.enums.Gender;
 import iuh.fit.salesappbackend.models.enums.Role;

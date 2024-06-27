@@ -1,12 +1,7 @@
 package iuh.fit.salesappbackend.models;
 
-import iuh.fit.salesappbackend.models.enums.MediaType;
 import iuh.fit.salesappbackend.models.enums.MessageType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.*;
 
 import java.time.LocalDateTime;

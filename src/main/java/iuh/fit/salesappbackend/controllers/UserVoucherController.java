@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/userVoucher")
+@RequestMapping("/api/v1/userVouchers")
 @RequiredArgsConstructor
 public class UserVoucherController {
 

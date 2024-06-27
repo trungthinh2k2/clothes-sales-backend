@@ -1,7 +1,6 @@
 package iuh.fit.salesappbackend.controllers;
 
 import iuh.fit.salesappbackend.dtos.requests.AddressDto;
-import iuh.fit.salesappbackend.dtos.responses.ResponseError;
 import iuh.fit.salesappbackend.dtos.responses.ResponseSuccess;
 import iuh.fit.salesappbackend.mappers.AddressMapper;
 import iuh.fit.salesappbackend.models.Address;
