@@ -1,6 +1,7 @@
 package iuh.fit.salesappbackend.dtos.requests;
 
 import iuh.fit.salesappbackend.models.Voucher;
+import iuh.fit.salesappbackend.models.enums.DeliveryMethod;
 import iuh.fit.salesappbackend.models.enums.PaymentMethod;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -23,12 +24,16 @@ public class OrderDto {
     @Pattern(regexp = "^(\\+84|0)\\d{9}$", message = "Phone number is invalid")
     private String phoneNumber;
     @NotBlank(message = "Byer name must not be blank")
-    private String byerName;
+    private String buyerName;
     @NotNull(message = "Address must not be null")
     private AddressDto address;
     @NotNull(message = "User id must not be null")
     private Long userId;
     @NotNull(message = "Product order must not be null")
-    private List<ProductOrderDto> productDtos;
+    private DeliveryMethod deliveryMethod;
+    private Double deliveryAmount;
+
+    private List<ProductOrderDto> productOrderDtos;
     private List<Voucher> vouchers;
+
 }
