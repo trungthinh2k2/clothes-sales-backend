@@ -34,6 +34,6 @@ public class OrderDto {
     private Double deliveryAmount;
 
     private List<ProductOrderDto> productOrderDtos;
-    private List<Voucher> vouchers;
+    private List<Long> vouchers;
 
 }
