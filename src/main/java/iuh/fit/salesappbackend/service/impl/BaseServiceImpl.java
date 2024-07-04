@@ -1,6 +1,10 @@
 package iuh.fit.salesappbackend.service.impl;
 
+import iuh.fit.salesappbackend.dtos.responses.PageResponse;
+import iuh.fit.salesappbackend.repositories.customizations.BaseCustomizationRepository;
 import iuh.fit.salesappbackend.service.interfaces.BaseService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.Serializable;
@@ -10,11 +14,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<T, ID>{
+public class BaseServiceImpl<T, ID extends Serializable>
+        extends BaseCustomizationRepository<T>
+        implements BaseService<T, ID>{
 
     private JpaRepository<T, ID> repository;
 
-    public BaseServiceImpl(JpaRepository<T, ID> repository) {
+    public BaseServiceImpl(JpaRepository<T, ID> repository, Class<T> entityClass) {
+        super(entityClass);
         this.repository = repository;
     }
 
@@ -83,4 +90,11 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
     public void deleteById(ID id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public Page<T> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+
 }

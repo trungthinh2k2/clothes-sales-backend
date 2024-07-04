@@ -12,6 +12,6 @@ public class UserVoucherServiceImpl
 
 
     public UserVoucherServiceImpl(JpaRepository<UserVoucher, UserVoucherId> repository) {
-        super(repository);
+        super(repository, UserVoucher.class);
     }
 }

@@ -14,7 +14,7 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category, Long> impleme
     private CategoryRepository categoryRepository;
 
     public CategoryServiceImpl(JpaRepository<Category, Long> repository) {
-        super(repository);
+        super(repository, Category.class);
     }
 
     @Autowired

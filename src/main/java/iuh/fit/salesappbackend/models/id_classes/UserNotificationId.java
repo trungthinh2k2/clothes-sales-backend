@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @AllArgsConstructor
-@EqualsAndHashCode
 @NoArgsConstructor
+@EqualsAndHashCode
 public class UserNotificationId implements Serializable {
     private User user;
     private Notification notification;

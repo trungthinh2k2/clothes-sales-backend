@@ -33,4 +33,16 @@ public class ColorController {
                 colorService.findAll()
         );
     }
+
+    @GetMapping("/page-color")
+    public ResponseSuccess<?> getAllColor(@RequestParam(defaultValue = "1") int pageNo,
+                                          @RequestParam(defaultValue = "10") int pageSize,
+                                          @RequestParam(required = false) String[] sort,
+                                          @RequestParam(required = false, defaultValue = "") String[] search) {
+        return new ResponseSuccess<>(
+                HttpStatus.OK.value(),
+                "Get color by id successfully",
+                colorService.getPageData(pageNo, pageSize, search, sort)
+        );
+    }
 }

@@ -41,7 +41,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, String> implements 
     private VoucherUsagesRepository voucherUsagesRepository;
 
     public OrderServiceImpl(JpaRepository<Order, String> repository) {
-        super(repository);
+        super(repository, Order.class);
     }
 
     @Autowired

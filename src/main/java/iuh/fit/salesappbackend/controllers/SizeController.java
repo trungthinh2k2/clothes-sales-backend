@@ -38,4 +38,13 @@ public class SizeController {
                 sizeService.findAll()
         );
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseSuccess<?> deleteUser(@PathVariable Long id) {
+        sizeService.deleteById(id);
+        return new ResponseSuccess<>(
+                HttpStatus.NO_CONTENT.value(),
+                "Size deleted successfully with id: " + id
+        );
+    }
 }
