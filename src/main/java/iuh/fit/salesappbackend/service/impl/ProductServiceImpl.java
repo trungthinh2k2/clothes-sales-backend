@@ -1,7 +1,6 @@
 package iuh.fit.salesappbackend.service.impl;
 
 import iuh.fit.salesappbackend.dtos.requests.ProductDto;
-import iuh.fit.salesappbackend.dtos.responses.PageResponse;
 import iuh.fit.salesappbackend.dtos.responses.ProductResponse;
 import iuh.fit.salesappbackend.exceptions.DataExistsException;
 import iuh.fit.salesappbackend.exceptions.DataNotFoundException;
@@ -12,7 +11,6 @@ import iuh.fit.salesappbackend.models.ProductImage;
 import iuh.fit.salesappbackend.repositories.ProductDetailRepository;
 import iuh.fit.salesappbackend.repositories.ProductImageRepository;
 import iuh.fit.salesappbackend.repositories.ProductRepository;
-import iuh.fit.salesappbackend.repositories.customizations.BaseCustomizationRepository;
 import iuh.fit.salesappbackend.service.interfaces.ProductService;
 import iuh.fit.salesappbackend.utils.CloudinaryUpload;
 import iuh.fit.salesappbackend.utils.S3Upload;

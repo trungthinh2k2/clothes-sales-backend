@@ -5,9 +5,9 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class PageResponse {
+public class PageResponse<T> {
     private int pageNo;
     private long totalPage;
     private int totalElements;
-    private Object data;
+    private T data;
 }

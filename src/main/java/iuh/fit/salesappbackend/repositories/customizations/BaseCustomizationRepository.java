@@ -22,7 +22,7 @@ public abstract class BaseCustomizationRepository<T> {
         this.entityClass = entityClass;
     }
 
-    public PageResponse getPageData(int pageNo, int pageSize, String[] search, String[] sort) {
+    public PageResponse<?> getPageData(int pageNo, int pageSize, String[] search, String[] sort) {
         String sql = String.format("select o from %s o where 1=1", entityClass.getName());
         StringBuilder queryBuilder = new StringBuilder(sql);
 //        StringBuilder queryBuilder = new StringBuilder("select o from %s o where 1=1", entityClass.getName());

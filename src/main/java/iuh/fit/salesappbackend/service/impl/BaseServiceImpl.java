@@ -1,6 +1,5 @@
 package iuh.fit.salesappbackend.service.impl;
 
-import iuh.fit.salesappbackend.dtos.responses.PageResponse;
 import iuh.fit.salesappbackend.repositories.customizations.BaseCustomizationRepository;
 import iuh.fit.salesappbackend.service.interfaces.BaseService;
 import org.springframework.data.domain.Page;
