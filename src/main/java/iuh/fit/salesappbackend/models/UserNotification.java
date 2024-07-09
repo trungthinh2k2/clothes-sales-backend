@@ -15,10 +15,11 @@ import lombok.*;
 public class UserNotification {
     @Id
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
     @Id
     @ManyToOne
-    @JoinColumn(name = "notification_id", nullable = false)
+    @JoinColumn(name = "notification_id")
     private Notification notification;
+
 }

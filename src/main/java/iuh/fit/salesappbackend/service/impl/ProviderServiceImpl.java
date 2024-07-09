@@ -14,7 +14,7 @@ public class ProviderServiceImpl extends BaseServiceImpl<Provider, Long> impleme
     private ProviderRepository providerRepository;
 
     public ProviderServiceImpl(JpaRepository<Provider, Long> repository) {
-        super(repository);
+        super(repository, Provider.class);
     }
 
     @Autowired

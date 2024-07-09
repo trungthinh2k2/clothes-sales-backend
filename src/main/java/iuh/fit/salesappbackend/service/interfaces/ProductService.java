@@ -9,4 +9,5 @@ import iuh.fit.salesappbackend.models.Product;
 public interface ProductService extends BaseService<Product, Long> {
     Product save(ProductDto productDto) throws DataExistsException, DataNotFoundException;
     ProductResponse findProductById(Long id) throws DataNotFoundException;
+
 }

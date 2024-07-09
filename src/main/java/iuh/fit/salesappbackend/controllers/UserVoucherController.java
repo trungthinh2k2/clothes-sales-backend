@@ -2,6 +2,7 @@ package iuh.fit.salesappbackend.controllers;
 
 import iuh.fit.salesappbackend.dtos.requests.UserVoucherDto;
 import iuh.fit.salesappbackend.dtos.responses.ResponseSuccess;
+import iuh.fit.salesappbackend.exceptions.DataNotFoundException;
 import iuh.fit.salesappbackend.mappers.UserVoucherMapper;
 import iuh.fit.salesappbackend.models.UserVoucher;
 import iuh.fit.salesappbackend.models.id_classes.UserVoucherId;
@@ -20,7 +21,7 @@ public class UserVoucherController {
     private final UserVoucherMapper userVoucherMapper;
 
     @PostMapping
-    public ResponseSuccess<?> createUserVoucher(@RequestBody @Valid UserVoucherDto userVoucherDto) {
+    public ResponseSuccess<?> createUserVoucher(@RequestBody @Valid UserVoucherDto userVoucherDto) throws DataNotFoundException {
         UserVoucher userVoucher = userVoucherMapper.userVoucherDTO2UserVoucher(userVoucherDto);
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
@@ -30,7 +31,7 @@ public class UserVoucherController {
     }
 
     @PutMapping()
-    public ResponseSuccess<?> updateUserVoucher(@RequestBody @Valid UserVoucherDto userVoucherDto) {
+    public ResponseSuccess<?> updateUserVoucher(@RequestBody @Valid UserVoucherDto userVoucherDto) throws DataNotFoundException {
         UserVoucher userVoucher = userVoucherMapper.userVoucherDTO2UserVoucher(userVoucherDto);
         UserVoucherId userVoucherId = new UserVoucherId(userVoucher.getUser(), userVoucher.getVoucher());
         return new ResponseSuccess<>(

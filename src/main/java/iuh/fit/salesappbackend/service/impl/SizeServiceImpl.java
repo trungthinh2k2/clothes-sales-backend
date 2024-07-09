@@ -14,7 +14,7 @@ public class SizeServiceImpl extends BaseServiceImpl<Size, Long> implements Size
     private SizeRepository sizeRepository;
 
     public SizeServiceImpl(JpaRepository<Size, Long> repository) {
-        super(repository);
+        super(repository, Size.class);
     }
 
     @Autowired

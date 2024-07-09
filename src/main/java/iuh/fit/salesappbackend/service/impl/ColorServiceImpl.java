@@ -13,7 +13,7 @@ public class ColorServiceImpl extends BaseServiceImpl<Color, Long> implements Co
     private ColorRepository colorRepository;
 
     public ColorServiceImpl(JpaRepository<Color, Long> repository, ColorRepository colorRepository) {
-        super(repository);
+        super(repository, Color.class);
     }
 
     @Autowired

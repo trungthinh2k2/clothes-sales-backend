@@ -35,7 +35,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
     private S3Upload s3Upload;
 
     public ProductServiceImpl(JpaRepository<Product, Long> repository, ProductMapper productMapper) {
-        super(repository);
+        super(repository, Product.class);
     }
 
     @Autowired
@@ -67,6 +67,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
     public void setProductDetailRepository(ProductDetailRepository productDetailRepository) {
         this.productDetailRepository = productDetailRepository;
     }
+
 
     //Upload Cloudinary
 //    @Override
@@ -141,4 +142,6 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
                 .productDetails(productDetails)
                 .build();
     }
+
+
 }

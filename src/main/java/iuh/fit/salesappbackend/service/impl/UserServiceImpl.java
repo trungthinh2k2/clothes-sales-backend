@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends BaseServiceImpl<User, Long> implements UserService {
 
     public UserServiceImpl(JpaRepository<User, Long> repository) {
-        super(repository);
+        super(repository, User.class);
     }
 }
