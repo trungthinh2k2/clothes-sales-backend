@@ -33,8 +33,12 @@ public class ProductCriteria {
 
         List<Predicate> predicates = createPredicate(root, cb, search, false);
         List<Predicate> orPredicates = createPredicate(root, cb, search, true);
-        cq.where(predicates.toArray(new Predicate[0]));
+        if (!orPredicates.isEmpty()) {
+            Predicate orPredicate = cb.or(orPredicates.toArray(Predicate[]::new));
+            predicates.add(orPredicate);
+        }
 
+        cq.where(predicates.toArray(new Predicate[0]));
         sortBy(root, cb, cq, sort);
 
         TypedQuery<Product> query = entityManager.createQuery(cq);
@@ -50,7 +54,6 @@ public class ProductCriteria {
         criteriaCountQuery.select(countBuilder.count(countRoot));
         List<Predicate> countPredicates = createPredicate(countRoot, cb, search, false);
         List<Predicate> orCountPredicates = createPredicate(countRoot, cb, search, true);
-//        countQuery.where(predicates.toArray(new Predicate[0]));
         if (!orCountPredicates.isEmpty()) {
             Predicate orPredicate = cb.or(orCountPredicates.toArray(Predicate[]::new));
             countPredicates.add(orPredicate);

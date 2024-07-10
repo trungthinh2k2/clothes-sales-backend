@@ -1,6 +1,7 @@
 package iuh.fit.salesappbackend.service.impl;
 
 import iuh.fit.salesappbackend.dtos.requests.ProductDto;
+import iuh.fit.salesappbackend.dtos.responses.PageResponse;
 import iuh.fit.salesappbackend.dtos.responses.ProductResponse;
 import iuh.fit.salesappbackend.exceptions.DataExistsException;
 import iuh.fit.salesappbackend.exceptions.DataNotFoundException;
@@ -11,6 +12,7 @@ import iuh.fit.salesappbackend.models.ProductImage;
 import iuh.fit.salesappbackend.repositories.ProductDetailRepository;
 import iuh.fit.salesappbackend.repositories.ProductImageRepository;
 import iuh.fit.salesappbackend.repositories.ProductRepository;
+import iuh.fit.salesappbackend.repositories.customizations.ProductQuery;
 import iuh.fit.salesappbackend.service.interfaces.ProductService;
 import iuh.fit.salesappbackend.utils.CloudinaryUpload;
 import iuh.fit.salesappbackend.utils.S3Upload;
@@ -33,6 +35,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
     private ProductDetailRepository productDetailRepository;
     private CloudinaryUpload cloudinaryUpload;
     private S3Upload s3Upload;
+    private ProductQuery productQuery;
 
     public ProductServiceImpl(JpaRepository<Product, Long> repository, ProductMapper productMapper) {
         super(repository, Product.class);
@@ -68,6 +71,10 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
         this.productDetailRepository = productDetailRepository;
     }
 
+    @Autowired
+    public void setProductQuery(ProductQuery productQuery) {
+        this.productQuery = productQuery;
+    }
 
     //Upload Cloudinary
 //    @Override
@@ -143,5 +150,9 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
                 .build();
     }
 
+    @Override
+    public PageResponse<?> getProductsForUserRole(int pageNo, int pageSize, String[] search, String[] sort) {
+        return productQuery.getPageData(pageNo, pageSize, search, sort);
+    }
 
 }

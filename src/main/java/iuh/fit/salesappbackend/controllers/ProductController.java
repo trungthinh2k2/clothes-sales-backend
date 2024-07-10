@@ -57,7 +57,8 @@ public class ProductController {
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
                 "Get all products successfully",
-                productService.getPageData(pageNo, pageSize, search, sort)
+                productService.getProductsForUserRole(pageNo, pageSize, search, sort)
+//                productService.getPageData(pageNo, pageSize, search, sort)
         );
     }
 

@@ -14,46 +14,36 @@ import java.util.regex.Pattern;
 @Repository
 public abstract class BaseCustomizationRepository<T> {
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
-    private final Class<T> entityClass;
+    protected final Class<T> entityClass;
 
-    public BaseCustomizationRepository(Class<T> entityClass) {
+    protected static final Pattern FILTER_PATTERN = Pattern.compile("(.*?)([<>]=?|:|-|!)([^-]*)-?(or)?");
+
+    protected static final Pattern SORT_PATTERN = Pattern.compile("(\\w+?)(:)(asc|desc)");
+
+    protected BaseCustomizationRepository(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
-    public PageResponse<?> getPageData(int pageNo, int pageSize, String[] search, String[] sort) {
+    protected PageResponse<?> getPageData(int pageNo, int pageSize, String[] search, String[] sort) {
         String sql = String.format("select o from %s o where 1=1", entityClass.getName());
         StringBuilder queryBuilder = new StringBuilder(sql);
-//        StringBuilder queryBuilder = new StringBuilder("select o from %s o where 1=1", entityClass.getName());
 
-        Pattern pattern = Pattern.compile("(\\w+?)(<|>|<>|:)(.*)");
-
-        createQueryBuilder(search, pattern, queryBuilder);
-
-        Pattern patternSort = Pattern.compile("(\\w+?)(:)(asc|desc)");
-        if (sort != null) {
-            for (String s : sort) {
-                Matcher matcher = patternSort.matcher(s);
-                if (matcher.find()) {
-                    String sortBy = String.format(" order by o.%s %s", matcher.group(1), matcher.group(3));
-                    queryBuilder.append(sortBy);
-                }
-            }
-        }
+        createQueryBuilder(search, queryBuilder, " %s o.%s %s ?%s");
+        sortBy(queryBuilder, " order by o.%s %s", sort);
 
         Query query = entityManager.createQuery(queryBuilder.toString());
         query.setFirstResult((pageNo - 1) * pageSize);
         query.setMaxResults(pageSize);
 
-        setValueParams(search, pattern, query);
+        setValueParams(search, query);
 
         String sqlCount = String.format("select count(*) from %s o where 1=1", entityClass.getName());
         StringBuilder countQueryBuilder = new StringBuilder(sqlCount);
-//        StringBuilder countQueryBuilder = new StringBuilder("select count(*) from %s o where 1=1");
-        createQueryBuilder(search, pattern, countQueryBuilder);
+        createQueryBuilder(search, countQueryBuilder, " %s o.%s %s ?%s");
         Query countQuery = entityManager.createQuery(countQueryBuilder.toString());
-        setValueParams(search, pattern, countQuery);
+        setValueParams(search, countQuery);
 
         List data = query.getResultList();
 
@@ -65,13 +55,15 @@ public abstract class BaseCustomizationRepository<T> {
                 .build();
     }
 
-    private void createQueryBuilder(String[] search, Pattern pattern, StringBuilder queryBuilder) {
-        if (search != null) {
-            for (String s : search) {
-                Matcher matcher = pattern.matcher(s);
-                if (matcher.find()) {
+
+    protected void createQueryBuilder(String[] search, StringBuilder queryBuilder, String queryFormat) {
+        if(search != null) {
+            for(String s : search) {
+                Matcher matcher = FILTER_PATTERN.matcher(s);
+                if(matcher.find()) {
                     String operator = OperatorQuery.getOperator(matcher.group(2));
-                    String format = String.format(" and o.%s %s ?%s", matcher.group(1), operator,
+                    String format = String.format(queryFormat, matcher.group(4) != null ? "or" : "and",
+                            matcher.group(1), operator,
                             Arrays.stream(search).toList().indexOf(s) + 1);
                     queryBuilder.append(format);
                 }
@@ -79,18 +71,33 @@ public abstract class BaseCustomizationRepository<T> {
         }
     }
 
-    private void setValueParams(String[] search, Pattern pattern, Query queryCount) {
+    protected void setValueParams(String[] search, Query queryCount) {
         if (search != null) {
             for (String s : search) {
-                Matcher matcher = pattern.matcher(s);
+                Matcher matcher = FILTER_PATTERN.matcher(s);
                 if (matcher.find()) {
-                    String value = matcher.group(3);
-                    if (OperatorQuery.getOperator(matcher.group(2)).equals("like")) {
-                        value = String.format("%%%s%%", value);
+                    String operator = OperatorQuery.getOperator(matcher.group(2));
+                    if (!operator.isEmpty()) {
+                        var value = matcher.group(3);
+                        if(operator.equals("like")) {
+                            value = String.format("%%%s%%", value);
+                        }
+                        queryCount.setParameter(Arrays.stream(search).toList().indexOf(s) + 1, value);
                     }
-                    queryCount.setParameter(Arrays.stream(search).toList().indexOf(s) + 1, value);
                 }
             }
         }
     }
+    protected void sortBy(StringBuilder queryBuilder, String queryFormat, String... sort) {
+        if (sort != null) {
+            for (String s : sort) {
+                Matcher matcher = SORT_PATTERN.matcher(s);
+                if (matcher.find()) {
+                    String sortBy = String.format(queryFormat, matcher.group(1), matcher.group(3));
+                    queryBuilder.append(sortBy);
+                }
+            }
+        }
+    }
+
 }
