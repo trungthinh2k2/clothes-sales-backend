@@ -1,10 +1,10 @@
 package iuh.fit.salesappbackend.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import iuh.fit.salesappbackend.dtos.requests.ProductDto;
 import iuh.fit.salesappbackend.dtos.responses.ResponseSuccess;
 import iuh.fit.salesappbackend.exceptions.DataExistsException;
 import iuh.fit.salesappbackend.exceptions.DataNotFoundException;
-import iuh.fit.salesappbackend.mappers.ProductMapper;
 import iuh.fit.salesappbackend.repositories.criterias.ProductCriteria;
 import iuh.fit.salesappbackend.service.interfaces.ProductService;
 import jakarta.validation.Valid;
@@ -49,11 +49,11 @@ public class ProductController {
 
     @GetMapping("/page-product")
     public ResponseSuccess<?> pageProduct(@RequestParam(defaultValue = "1") int pageNo,
-                                          @RequestParam(defaultValue = "10") int pageSize,
+                                          @RequestParam(defaultValue = "5") int pageSize,
                                           @RequestParam(required = false) String[] sort,
                                           @RequestParam(required = false, defaultValue = "") String[] search
-                                          ) {
-
+                                          )
+            throws JsonProcessingException {
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
                 "Get all products successfully",

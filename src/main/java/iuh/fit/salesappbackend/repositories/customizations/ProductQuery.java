@@ -17,18 +17,18 @@ public class ProductQuery extends BaseCustomizationRepository<Product> {
 
     private String getQuery(String query) {
 
-        return String.format("select distinct %s " +
-                "from Product p left join ProductPrice pp on  p.id=pp.product.id  " +
-                "where pp.expiredDate > current date " +
-                "and pp.discountedPrice = (select max(pp2.discountedPrice) " +
-                "from ProductPrice pp2 where pp2.product = p) or pp.discountedPrice is null ", query);
-
-
 //        return String.format("select distinct %s " +
-//                "from Product p " +
-//                "left join ProductPrice pp " +
-//                "on p = pp.product and pp.expiredDate > current date where (pp.discountedPrice = " +
-//                "(select max(pp2.discountedPrice) from ProductPrice pp2 where pp2.product = p) or pp.discountedPrice is null )", query);
+//                "from Product p left join ProductPrice pp on  p.id=pp.product.id  " +
+//                "where pp.expiredDate > current date " +
+//                "and pp.discountedPrice = (select max(pp2.discountedPrice) " +
+//                "from ProductPrice pp2 where pp2.product = p) or pp.discountedPrice is null )", query);
+
+
+        return String.format("select distinct %s " +
+                "from Product p " +
+                "left join ProductPrice pp " +
+                "on p = pp.product and pp.expiredDate > current date where (pp.discountedPrice = " +
+                "(select max(pp2.discountedPrice) from ProductPrice pp2 where pp2.product = p) or pp.discountedPrice is null )", query);
     }
 
     @Override
@@ -44,6 +44,7 @@ public class ProductQuery extends BaseCustomizationRepository<Product> {
         query.setFirstResult((pageNo - 1) * pageSize);
         query.setMaxResults(pageSize);
         setValueParams(search, query);
+        System.out.println(query.toString());
 
         var data = query.getResultList();
 

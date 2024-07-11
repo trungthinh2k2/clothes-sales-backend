@@ -1,8 +1,10 @@
 package iuh.fit.salesappbackend.models;
 
+import iuh.fit.salesappbackend.events.ProductEvent;
 import iuh.fit.salesappbackend.models.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
+
 @Entity
 @Table(name = "products")
 @Getter
@@ -10,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(ProductEvent.class)
 public class Product extends BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

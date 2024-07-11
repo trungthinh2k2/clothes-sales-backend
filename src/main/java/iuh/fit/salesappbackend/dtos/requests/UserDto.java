@@ -16,10 +16,6 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 public class UserDto implements Serializable {
-//    @ValidatorDate
-//    LocalDateTime createdAt;
-//    @ValidatorDate
-//    LocalDateTime updatedAt;
     @NotBlank(message = "Name must be not blank")
     private String name;
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$", message = "Email is invalid")

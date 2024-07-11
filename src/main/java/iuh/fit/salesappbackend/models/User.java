@@ -1,5 +1,6 @@
 package iuh.fit.salesappbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import iuh.fit.salesappbackend.models.enums.Gender;
 import iuh.fit.salesappbackend.models.enums.Role;
@@ -32,6 +33,7 @@ public class User extends BaseModel{
     @Enumerated(EnumType.STRING)
     private Role role;
     @Column(name = "date_of_birth")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateOfBirth;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", nullable = false)

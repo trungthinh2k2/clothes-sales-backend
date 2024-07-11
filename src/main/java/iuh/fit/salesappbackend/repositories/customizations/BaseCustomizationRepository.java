@@ -45,7 +45,7 @@ public abstract class BaseCustomizationRepository<T> {
         Query countQuery = entityManager.createQuery(countQueryBuilder.toString());
         setValueParams(search, countQuery);
 
-        List data = query.getResultList();
+        var data = query.getResultList();
 
         return PageResponse.builder()
                 .data(data)
