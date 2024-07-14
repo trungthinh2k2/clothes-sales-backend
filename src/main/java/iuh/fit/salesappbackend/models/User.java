@@ -36,6 +36,8 @@ public class User extends BaseModel{
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateOfBirth;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", nullable = false)
+    @JoinColumn(name = "address_id")
     private Address address;
+    private boolean verify;
+    private String otp;
 }

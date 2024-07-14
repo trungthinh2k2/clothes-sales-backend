@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ResponseError {
+public class ResponseError implements Response{
     private int status;
     private List<String> errors;
 

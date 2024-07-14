@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/v1/send-mail")
+@RequestMapping("/api/v1/test")
 @RequiredArgsConstructor
 public class TestSendEmail {
     private final EmailService emailService;
@@ -29,5 +29,20 @@ public class TestSendEmail {
     public String sendHtmlMail(@RequestBody EmailDetails emailDetails) throws MessagingException {
         emailService.sendHtmlMail(emailDetails);
         return "Mail Sent Successfully...";
+    }
+
+    @GetMapping
+    public String test() {
+        return "test token";
+    }
+
+    @GetMapping("/user")
+    public String testUser() {
+        return "test token role user";
+    }
+
+    @GetMapping("/admin")
+    public String testAdmin() {
+        return "test token role admin";
     }
 }

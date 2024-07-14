@@ -23,7 +23,7 @@ public class UserDto implements Serializable {
     private String email;
     @NotBlank(message = "Password must be not blank")
     private String password;
-    @Pattern(regexp = "^(\\+84|0)\\d{9}$", message = "Phone number is invalid")
+    @Pattern(regexp = "^(0)\\d{9}$", message = "Phone number is invalid")
     private String phoneNumber;
     private Gender gender;
     private Role role;

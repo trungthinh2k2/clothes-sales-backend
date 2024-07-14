@@ -21,7 +21,7 @@ public class OrderDto {
     private PaymentMethod paymentMethod;
     private String note;
     @NotNull(message = "Phone number must not be null")
-    @Pattern(regexp = "^(\\+84|0)\\d{9}$", message = "Phone number is invalid")
+    @Pattern(regexp = "^(0)\\d{9}$", message = "Phone number is invalid")
     private String phoneNumber;
     @NotBlank(message = "Byer name must not be blank")
     private String buyerName;
