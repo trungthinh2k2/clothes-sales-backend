@@ -1,5 +1,6 @@
 package iuh.fit.salesappbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import iuh.fit.salesappbackend.models.enums.DeliveryMethod;
 import iuh.fit.salesappbackend.models.enums.OrderStatus;
 import iuh.fit.salesappbackend.models.enums.PaymentMethod;
@@ -20,6 +21,7 @@ public class Order extends BaseModel{
     @Column(name = "order_id")
     private String id;
     @Column(name = "order_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime orderDate;
     @Enumerated(EnumType.STRING)

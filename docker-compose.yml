@@ -46,6 +46,16 @@ services:
     networks:
       - sales-app-network
     restart: unless-stopped
+  redis-container:
+    container_name: redis-container
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis-data:/data
+    networks:
+      - sales-app-network
 
 networks:
   sales-app-network:

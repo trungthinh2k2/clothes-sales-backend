@@ -16,10 +16,6 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 public class UserDto implements Serializable {
-//    @ValidatorDate
-//    LocalDateTime createdAt;
-//    @ValidatorDate
-//    LocalDateTime updatedAt;
     @NotBlank(message = "Name must be not blank")
     private String name;
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$", message = "Email is invalid")
@@ -27,7 +23,7 @@ public class UserDto implements Serializable {
     private String email;
     @NotBlank(message = "Password must be not blank")
     private String password;
-    @Pattern(regexp = "^(\\+84|0)\\d{9}$", message = "Phone number is invalid")
+    @Pattern(regexp = "^(0)\\d{9}$", message = "Phone number is invalid")
     private String phoneNumber;
     private Gender gender;
     private Role role;

@@ -1,5 +1,6 @@
 package iuh.fit.salesappbackend.service.impl;
 
+import iuh.fit.salesappbackend.dtos.responses.PageResponse;
 import iuh.fit.salesappbackend.repositories.customizations.BaseCustomizationRepository;
 import iuh.fit.salesappbackend.service.interfaces.BaseService;
 import org.springframework.data.domain.Page;
@@ -93,6 +94,11 @@ public class BaseServiceImpl<T, ID extends Serializable>
     @Override
     public Page<T> findAll(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    @Override
+    public PageResponse<?> getPageData(int pageNo, int pageSize, String[] search, String[] sort) {
+        return null;
     }
 
 

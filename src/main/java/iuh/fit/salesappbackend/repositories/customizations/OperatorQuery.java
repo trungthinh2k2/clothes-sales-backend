@@ -6,9 +6,11 @@ public class OperatorQuery {
         return switch (operator) {
             case "<" -> "<";
             case ">" -> ">";
-            case "<>" -> "=";
-            case ":" -> "like";
-            default -> "";
+            case "-" -> "=";
+            case ">=" -> ">=";
+            case "<=" -> "<=";
+            case "!" -> "";
+            default -> "like";
         };
     }
 }

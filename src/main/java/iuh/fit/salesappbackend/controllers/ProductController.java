@@ -1,10 +1,11 @@
 package iuh.fit.salesappbackend.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import iuh.fit.salesappbackend.dtos.requests.ProductDto;
+import iuh.fit.salesappbackend.dtos.responses.Response;
 import iuh.fit.salesappbackend.dtos.responses.ResponseSuccess;
 import iuh.fit.salesappbackend.exceptions.DataExistsException;
 import iuh.fit.salesappbackend.exceptions.DataNotFoundException;
-import iuh.fit.salesappbackend.mappers.ProductMapper;
 import iuh.fit.salesappbackend.repositories.criterias.ProductCriteria;
 import iuh.fit.salesappbackend.service.interfaces.ProductService;
 import jakarta.validation.Valid;
@@ -21,7 +22,7 @@ public class ProductController {
     private final ProductCriteria productCriteria;
 
     @PostMapping
-    public ResponseSuccess<?> createProduct(@ModelAttribute @Valid ProductDto productDto) throws DataNotFoundException, DataExistsException {
+    public Response createProduct(@ModelAttribute @Valid ProductDto productDto) throws DataNotFoundException, DataExistsException {
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
                 "Product created successfully",
@@ -30,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseSuccess<?> getAllProducts() {
+    public Response getAllProducts() {
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
                 "Get all products successfully",
@@ -39,7 +40,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseSuccess<?> getProductById(@PathVariable Long id) throws DataNotFoundException {
+    public Response getProductById(@PathVariable Long id) throws DataNotFoundException {
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
                 "Get product by id successfully",
@@ -48,21 +49,21 @@ public class ProductController {
     }
 
     @GetMapping("/page-product")
-    public ResponseSuccess<?> pageProduct(@RequestParam(defaultValue = "1") int pageNo,
-                                          @RequestParam(defaultValue = "10") int pageSize,
+    public Response pageProduct(@RequestParam(defaultValue = "1") int pageNo,
+                                          @RequestParam(defaultValue = "5") int pageSize,
                                           @RequestParam(required = false) String[] sort,
                                           @RequestParam(required = false, defaultValue = "") String[] search
-                                          ) {
-
+                                          )
+            throws JsonProcessingException {
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
                 "Get all products successfully",
-                productService.getPageData(pageNo, pageSize, search, sort)
+                productService.getProductsForUserRole(pageNo, pageSize, search, sort)
         );
     }
 
     @GetMapping("/page-product-criteria")
-    public ResponseSuccess<?> pageProductCriteria(@RequestParam(defaultValue = "1") int pageNo,
+    public Response pageProductCriteria(@RequestParam(defaultValue = "1") int pageNo,
                                           @RequestParam(defaultValue = "10") int pageSize,
                                           @RequestParam(required = false) String[] sort,
                                           @RequestParam(required = false, defaultValue = "") String[] search

@@ -190,6 +190,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, String> implements 
             }
             productDetail.setQuantity(quantity);
             product.setTotalQuantity(product.getTotalQuantity() - productOrderDto.getQuantity());
+            int buyQuantity = product.getBuyQuantity() != null ? product.getBuyQuantity() : 0;
+            product.setBuyQuantity(buyQuantity + productOrderDto.getQuantity());
             productDetailRepository.save(productDetail);
             productRepository.save(product);
 
@@ -199,7 +201,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, String> implements 
             double price = product.getPrice();
             if (!productPrices.isEmpty()) {
                 for (ProductPrice productPrice: productPrices ) {
-                    if(productPrice.getExpriedDate().isAfter(LocalDateTime.now())) {
+                    if(productPrice.getExpiredDate().isAfter(LocalDateTime.now())) {
                         if(productPrice.getDiscountedPrice() > discountedPrice) {
                             discountedPrice = productPrice.getDiscountedPrice();
                         }
