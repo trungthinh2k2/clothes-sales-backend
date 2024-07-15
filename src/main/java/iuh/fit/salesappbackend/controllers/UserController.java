@@ -1,6 +1,8 @@
 package iuh.fit.salesappbackend.controllers;
 
+import iuh.fit.salesappbackend.dtos.requests.ChangePasswordRequest;
 import iuh.fit.salesappbackend.dtos.requests.UserDto;
+import iuh.fit.salesappbackend.dtos.responses.Response;
 import iuh.fit.salesappbackend.dtos.responses.ResponseSuccess;
 import iuh.fit.salesappbackend.mappers.UserMapper;
 import iuh.fit.salesappbackend.models.User;
@@ -20,7 +22,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PostMapping
-    public ResponseSuccess<?> createUser(@RequestBody @Valid UserDto userDto) {
+    public Response createUser(@RequestBody @Valid UserDto userDto) {
         User user = userMapper.userDto2User(userDto);
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
@@ -30,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseSuccess<?> getAllUsers() {
+    public Response getAllUsers() {
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
                 "Get all users successfully",
@@ -39,7 +41,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseSuccess<?> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+    public Response updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
         User user = userMapper.userDto2User(userDto);
         user.setId(id);
         return new ResponseSuccess<>(
@@ -50,7 +52,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseSuccess<?> deleteUser(@PathVariable Long id) {
+    public Response deleteUser(@PathVariable Long id) {
         userService.deleteById(id);
         return new ResponseSuccess<>(
                 HttpStatus.NO_CONTENT.value(),
@@ -59,11 +61,22 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseSuccess<?> patchUser(@PathVariable Long id, @RequestBody Map<String, ?> data) {
+    public Response patchUser(@PathVariable Long id, @RequestBody Map<String, ?> data) {
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
                 "User updated successfully",
                 userService.updatePatch(id, data)
+        );
+    }
+
+
+    @PostMapping("/change-password")
+    public Response changePassword(@RequestBody ChangePasswordRequest changePasswordRequest)
+            throws Exception {
+        return new ResponseSuccess<>(
+                HttpStatus.OK.value(),
+                "change password successfully",
+                userService.changePassword(changePasswordRequest)
         );
     }
 }

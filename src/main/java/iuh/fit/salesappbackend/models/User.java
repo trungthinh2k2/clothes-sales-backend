@@ -40,4 +40,6 @@ public class User extends BaseModel{
     private Address address;
     private boolean verify;
     private String otp;
+    @Column(name = "otp_reset_password")
+    private String otpResetPassword;
 }

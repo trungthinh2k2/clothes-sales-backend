@@ -1,6 +1,6 @@
 package iuh.fit.salesappbackend.configurations;
 
-import iuh.fit.salesappbackend.service.interfaces.UserService;
+import iuh.fit.salesappbackend.service.interfaces.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserService userService;
+    private final UserDetailService userDetailService;
     private final PreFilter preFilter;
 
     @Bean
@@ -34,7 +34,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return userService;
+        return userDetailService;
     }
 
     @Bean
@@ -55,11 +55,13 @@ public class SecurityConfig {
                             "/api/v1/providers/**",
                             "/api/v1/colors/**",
                             "/api/v1/sizes/**").permitAll();
-                    author.requestMatchers(HttpMethod.GET,"api/v1/products/**").permitAll();
-                    author.requestMatchers(HttpMethod.PATCH,"api/v1/products/**").hasRole("USER");
-                    author.requestMatchers(HttpMethod.PUT,"api/v1/products/**").hasRole("USER");
-                    author.requestMatchers(HttpMethod.POST,"api/v1/orders/**").authenticated();
-                    author.anyRequest().hasRole("ADMIN");
+                    author.requestMatchers(HttpMethod.GET,"/api/v1/products/**").permitAll();
+                    author.requestMatchers(HttpMethod.PATCH,"/api/v1/products/**").hasRole("USER");
+                    author.requestMatchers(HttpMethod.PUT,"/api/v1/products/**").hasRole("USER");
+                    author.requestMatchers(HttpMethod.POST,"/api/v1/orders/**").authenticated();
+                    author.requestMatchers( "/api/v1/users/**").authenticated();
+//                    author.anyRequest().hasRole("ADMIN");
+                    author.anyRequest().permitAll();
                 })
                 .sessionManagement(httpSessionManagement ->
                         httpSessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // không lưu session
