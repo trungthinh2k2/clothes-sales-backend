@@ -1,5 +1,6 @@
 package iuh.fit.salesappbackend.configurations;
 
+import iuh.fit.salesappbackend.oauth2.Oauth2LoginSusscess;
 import iuh.fit.salesappbackend.service.interfaces.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,7 @@ public class SecurityConfig {
 
     private final UserDetailService userDetailService;
     private final PreFilter preFilter;
+    private final Oauth2LoginSusscess oauth2LoginSusscess;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -62,6 +64,9 @@ public class SecurityConfig {
                     author.requestMatchers( "/api/v1/users/**").authenticated();
 //                    author.anyRequest().hasRole("ADMIN");
                     author.anyRequest().permitAll();
+                })
+                .oauth2Login(oauth2 -> {
+                    oauth2.successHandler(oauth2LoginSusscess);
                 })
                 .sessionManagement(httpSessionManagement ->
                         httpSessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // không lưu session
