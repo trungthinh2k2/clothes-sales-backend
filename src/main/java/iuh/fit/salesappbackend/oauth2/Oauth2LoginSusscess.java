@@ -7,11 +7,11 @@ import iuh.fit.salesappbackend.models.Token;
 import iuh.fit.salesappbackend.models.User;
 import iuh.fit.salesappbackend.models.UserDetail;
 import iuh.fit.salesappbackend.models.enums.Role;
-import iuh.fit.salesappbackend.repositories.TokenRepository;
 import iuh.fit.salesappbackend.repositories.UserRepository;
 import iuh.fit.salesappbackend.service.interfaces.JwtService;
 import iuh.fit.salesappbackend.service.interfaces.TokenService;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -90,16 +90,27 @@ public class Oauth2LoginSusscess implements AuthenticationSuccessHandler {
             userDB.setFacebookAccountId(user.getFacebookAccountId());
         }
         userRepository.save(userDB);
-        LoginResponse loginResponse = loginHandler(user);
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//        objectMapper.writeValue(response.getWriter(), loginResponse);
+        LoginResponse loginResponse = loginHandler(userDB);
 
-        String url = String.format("%s/login-success?accessToken=%s&refreshToken=%s", frontEndUrl,
+        // Set cookies
+        Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.getAccessToken());
+//        accessTokenCookie.setSecure(true); for https
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(30);
+
+        Cookie refreshTokenCookie = new Cookie("refreshToken", loginResponse.getRefreshToken());
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(30);
+
+        response.addCookie(accessTokenCookie);
+        response.addCookie(refreshTokenCookie);
+
+        String url = String.format("%s/auth/login-success?accessToken=%s&refreshToken=%s&email=%s", frontEndUrl,
                 loginResponse.getAccessToken(),
-                loginResponse.getRefreshToken());
+                loginResponse.getRefreshToken(),
+                userDB.getEmail()
+                );
         response.sendRedirect(url);
-
     }
 
     private LoginResponse loginHandler(User user) {

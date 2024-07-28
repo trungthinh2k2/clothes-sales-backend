@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -63,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
             new DataNotFoundException("email is not exists")
         );
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-        if (passwordEncoder.matches(password, user.getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new DataNotFoundException("password is incorrect");
         }
         UserDetail userDetail = new UserDetail(user);
@@ -197,11 +198,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private User mapToUser(UserRegisterDto userRegisterDto) throws DataExistsException {
-        if (userRepository.existsByEmail(userRegisterDto.getEmail())) {
-            throw new DataExistsException("Email already exists");
+        Optional<User> user = userRepository.findByEmail(userRegisterDto.getEmail());
+        User userExists = new User();
+        if(user.isPresent()) {
+            if(user.get().isVerify()) {
+                throw new DataExistsException("email already exists");
+            }
+            userExists = user.get();
         }
         String otp = getOtp();
-        return User.builder()
+        User userRs = User.builder()
                 .email(userRegisterDto.getEmail())
                 .password(passwordEncoder.encode(userRegisterDto.getPassword()))
                 .name(userRegisterDto.getName())
@@ -209,6 +215,8 @@ public class AuthServiceImpl implements AuthService {
                 .otp(otp)
                 .phoneNumber(userRegisterDto.getPhone())
                 .build();
+        userRs.setId(userExists.getId());
+        return userRs;
     }
 
     private String getOtp() {

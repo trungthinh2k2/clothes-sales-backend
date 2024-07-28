@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User, Long> implements UserService {
@@ -58,6 +59,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
                 .accessToken(newToken.getAccessToken())
                 .refreshToken(newToken.getRefreshToken())
                 .build();
+    }
+
+    @Override
+    public User getUserByEmail(String email) throws DataNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
     }
 
 

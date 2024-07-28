@@ -3,11 +3,8 @@ package iuh.fit.salesappbackend.controllers;
 import iuh.fit.salesappbackend.dtos.requests.*;
 import iuh.fit.salesappbackend.dtos.responses.Response;
 import iuh.fit.salesappbackend.dtos.responses.ResponseSuccess;
-import iuh.fit.salesappbackend.exceptions.DataExistsException;
 import iuh.fit.salesappbackend.exceptions.DataNotFoundException;
 import iuh.fit.salesappbackend.service.interfaces.AuthService;
-import jakarta.mail.MessagingException;
-import jakarta.persistence.PostRemove;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,7 +39,7 @@ public class AuthController {
     }
 
     @PostMapping("/verify-email")
-    public Response verify(@RequestBody @Valid VerifyEmailDto verifyEmailDto) throws DataNotFoundException {
+    public Response verify(@RequestBody VerifyEmailDto verifyEmailDto) throws DataNotFoundException {
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
                 "verify email successfully",

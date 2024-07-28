@@ -1,6 +1,7 @@
 package iuh.fit.salesappbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import iuh.fit.salesappbackend.events.ProductPriceEvent;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(ProductPriceEvent.class)
 public class ProductPrice {
 
     @Id

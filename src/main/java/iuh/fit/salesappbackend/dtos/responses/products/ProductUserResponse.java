@@ -17,6 +17,7 @@ public class ProductUserResponse {
     private Product product;
     private Float discount;
     private Double discountedPrice;
+    private Double discountedAmount;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime expiredDate;
 

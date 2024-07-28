@@ -35,7 +35,7 @@ public class ProductQuery extends BaseCustomizationRepository<Product> {
     public PageResponse<?> getPageData(int pageNo, int pageSize, String[] search, String[] sort) {
 
 
-        StringBuilder queryBuilder = new StringBuilder(getQuery("new iuh.fit.salesappbackend.dtos.responses.products.ProductUserResponse(p, pp.discount, pp.discountedPrice, pp.expiredDate)"));
+        StringBuilder queryBuilder = new StringBuilder(getQuery("new iuh.fit.salesappbackend.dtos.responses.products.ProductUserResponse(p, pp.discount, pp.discountedPrice, pp.discountedAmount, pp.expiredDate)"));
 
         System.out.println(queryBuilder.toString());
         createQueryBuilder(search, queryBuilder, " %s p.%s %s ?%s");
