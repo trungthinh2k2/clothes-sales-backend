@@ -20,7 +20,6 @@ public class User extends BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    @JsonIgnore
     private Long id;
     private String name;
     @Column(unique = true)

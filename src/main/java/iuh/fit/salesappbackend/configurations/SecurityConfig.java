@@ -57,13 +57,11 @@ public class SecurityConfig {
                             "/api/v1/providers/**",
                             "/api/v1/colors/**",
                             "/api/v1/sizes/**").permitAll();
-                    author.requestMatchers(HttpMethod.GET,"/api/v1/products/**").permitAll();
                     author.requestMatchers(HttpMethod.PATCH,"/api/v1/products/**").hasRole("USER");
                     author.requestMatchers(HttpMethod.PUT,"/api/v1/products/**").hasRole("USER");
-                    author.requestMatchers(HttpMethod.POST,"/api/v1/orders/**").authenticated();
                     author.requestMatchers( "/api/v1/users/**").authenticated();
-//                    author.anyRequest().hasRole("ADMIN");
-                    author.anyRequest().permitAll();
+                    author.requestMatchers(HttpMethod.POST, "/api/v1/orders").authenticated();
+                    author.anyRequest().hasRole("ADMIN");
                 })
                 .oauth2Login(oauth2 -> {
                     oauth2.successHandler(oauth2LoginSusscess);

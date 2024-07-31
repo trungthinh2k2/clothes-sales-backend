@@ -17,6 +17,8 @@ import java.util.List;
 @Setter
 @Builder
 public class OrderDto {
+    @NotBlank(message = "Email must not be blank")
+    private String email;
     @NotNull(message = "Payment Method must not be null")
     private PaymentMethod paymentMethod;
     private String note;
@@ -27,13 +29,10 @@ public class OrderDto {
     private String buyerName;
     @NotNull(message = "Address must not be null")
     private AddressDto address;
-    @NotNull(message = "User id must not be null")
-    private Long userId;
     @NotNull(message = "Product order must not be null")
     private DeliveryMethod deliveryMethod;
     private Double deliveryAmount;
-
-    private List<ProductOrderDto> productOrderDtos;
+    private List<ProductOrderDto> productOrders;
     private List<Long> vouchers;
 
 }
