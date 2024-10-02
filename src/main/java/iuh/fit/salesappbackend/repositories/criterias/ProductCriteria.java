@@ -2,7 +2,7 @@ package iuh.fit.salesappbackend.repositories.criterias;
 
 import iuh.fit.salesappbackend.dtos.responses.PageResponse;
 import iuh.fit.salesappbackend.models.Product;
-import iuh.fit.salesappbackend.repositories.customizations.OperatorQuery;
+//import iuh.fit.salesappbackend.repositories.customizations.OperatorQuery;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;

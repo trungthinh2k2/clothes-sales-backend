@@ -38,6 +38,17 @@ public class User extends BaseModel{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
+    @JsonIgnore
     private boolean verify;
+    @JsonIgnore
     private String otp;
+    @Column(name = "otp_reset_password")
+    @JsonIgnore
+    private String otpResetPassword;
+    @Column(name = "facebook_account_id")
+    private String facebookAccountId;
+    @Column(name = "google_account_id")
+    private String googleAccountId;
+    @Column(name = "avatar_url")
+    private String avatarUrl;
 }

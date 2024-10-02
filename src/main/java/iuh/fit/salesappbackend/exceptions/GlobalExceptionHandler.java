@@ -1,5 +1,6 @@
 package iuh.fit.salesappbackend.exceptions;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import iuh.fit.salesappbackend.dtos.responses.ResponseError;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,6 +30,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataNotFoundException.class)
     public ResponseError handleDataNotFoundException(DataNotFoundException ex) {
         return new ResponseError(HttpStatus.NOT_FOUND.value(), List.of(ex.getMessage()));
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseError handleExpiredJwtException(ExpiredJwtException ex) {
+        return new ResponseError(HttpStatus.UNAUTHORIZED.value(), List.of(ex.getMessage()));
     }
 
 }

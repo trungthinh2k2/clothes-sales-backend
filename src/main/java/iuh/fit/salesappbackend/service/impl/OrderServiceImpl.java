@@ -92,8 +92,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, String> implements 
     @Override
     @Transactional(rollbackFor = {DataNotFoundException.class})
     public Order save(OrderDto orderDto) throws DataNotFoundException {
-        List<ProductOrderDto> productOrderDtos = orderDto.getProductOrderDtos();
-        User user = userRepository.findById(orderDto.getUserId())
+        List<ProductOrderDto> productOrders = orderDto.getProductOrders();
+        User user = userRepository.findByEmail(orderDto.getEmail())
                 .orElseThrow(() -> new DataNotFoundException("User not found"));
         double originalAmount = 0;
 
@@ -114,50 +114,52 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, String> implements 
         order = super.save(order);
 
         List<Long> vouchers = orderDto.getVouchers();
-        for (Long voucherId: vouchers) {
-            Voucher voucher = voucherRepository.findById(voucherId)
-                    .orElseThrow(() -> new DataNotFoundException("Voucher not found"));
-            UserVoucherId userVoucherId = new UserVoucherId(user, voucher);
-            if (voucher.getScope().equals(Scope.FOR_USER)) {
-                UserVoucher userVoucher = userVoucherRepository.findById(userVoucherId)
-                        .orElseThrow(() -> new DataNotFoundException("UserVoucher not found"));
-                if (!userVoucher.getIsUsed()) {
+        if (vouchers != null) {
+            for (Long voucherId: vouchers) {
+                Voucher voucher = voucherRepository.findById(voucherId)
+                        .orElseThrow(() -> new DataNotFoundException("Voucher not found"));
+                UserVoucherId userVoucherId = new UserVoucherId(user, voucher);
+                if (voucher.getScope().equals(Scope.FOR_USER)) {
+                    UserVoucher userVoucher = userVoucherRepository.findById(userVoucherId)
+                            .orElseThrow(() -> new DataNotFoundException("UserVoucher not found"));
+                    if (!userVoucher.getIsUsed()) {
+                        double discountPrice = addVoucherDeliveryToOrder(originalAmount, voucher);
+                        if(discountPrice > 0) {
+                            userVoucher.setIsUsed(true);
+                        }
+                        if(voucher.getVoucherType().equals(VoucherType.FOR_DELIVERY)) {
+                            order.setDeliveryAmount(order.getDeliveryAmount() - discountPrice);
+                        } else {
+                            order.setDiscountedPrice(
+                                    (order.getDiscountedPrice() == null ? 0 : order.getDiscountedPrice())
+                                            + discountPrice);
+                        }
+                        userVoucherRepository.save(userVoucher);
+                    }
+                } else  {
+                    Optional<VoucherUsages> voucherUsages = voucherUsagesRepository.findById(userVoucherId);
                     double discountPrice = addVoucherDeliveryToOrder(originalAmount, voucher);
-                    if(discountPrice > 0) {
-                        userVoucher.setIsUsed(true);
-                    }
-                    if(voucher.getVoucherType().equals(VoucherType.FOR_DELIVERY)) {
-                        order.setDeliveryAmount(order.getDeliveryAmount() - discountPrice);
-                    } else {
-                        order.setDiscountedPrice(
-                                (order.getDiscountedPrice() == null ? 0 : order.getDiscountedPrice())
-                                        + discountPrice);
-                    }
-                    userVoucherRepository.save(userVoucher);
-                }
-            } else  {
-                Optional<VoucherUsages> voucherUsages = voucherUsagesRepository.findById(userVoucherId);
-                double discountPrice = addVoucherDeliveryToOrder(originalAmount, voucher);
-                if(voucherUsages.isEmpty()) {
-                    if(voucher.getVoucherType().equals(VoucherType.FOR_DELIVERY)) {
-                        order.setDeliveryAmount(order.getDeliveryAmount() - discountPrice);
-                    } else {
-                        order.setDiscountedPrice(
-                                (order.getDiscountedPrice() == null ? 0 : order.getDiscountedPrice())
-                                        + discountPrice);
-                    }
-                    if(discountPrice > 0) {
-                        VoucherUsages voucherUsages1 = new VoucherUsages();
-                        voucherUsages1.setVoucher(voucher);
-                        voucherUsages1.setUser(user);
-                        voucherUsages1.setUsagesDate(LocalDateTime.now());
-                        voucherUsagesRepository.save(voucherUsages1);
+                    if(voucherUsages.isEmpty()) {
+                        if(voucher.getVoucherType().equals(VoucherType.FOR_DELIVERY)) {
+                            order.setDeliveryAmount(order.getDeliveryAmount() - discountPrice);
+                        } else {
+                            order.setDiscountedPrice(
+                                    (order.getDiscountedPrice() == null ? 0 : order.getDiscountedPrice())
+                                            + discountPrice);
+                        }
+                        if(discountPrice > 0) {
+                            VoucherUsages voucherUsages1 = new VoucherUsages();
+                            voucherUsages1.setVoucher(voucher);
+                            voucherUsages1.setUser(user);
+                            voucherUsages1.setUsagesDate(LocalDateTime.now());
+                            voucherUsagesRepository.save(voucherUsages1);
+                        }
                     }
                 }
             }
         }
 
-        originalAmount = handleAmount(productOrderDtos, order, originalAmount);
+
         order.setDiscountedAmount((originalAmount + order.getDeliveryAmount())
                 - (order.getDiscountedPrice() == null ? 0 : order.getDiscountedPrice()));
         order.setOriginalAmount(originalAmount);
@@ -177,8 +179,9 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, String> implements 
         return 0;
     }
 
-    private double handleAmount(List<ProductOrderDto> productOrderDtos, Order order, double originalAmount) throws DataNotFoundException {
-        for (ProductOrderDto productOrderDto : productOrderDtos) {
+    private double handleAmount(List<ProductOrderDto> productOrders, Order order, double originalAmount)
+            throws DataNotFoundException {
+        for (ProductOrderDto productOrderDto : productOrders) {
             ProductDetail productDetail = productDetailRepository.findById(
                             productOrderDto.getProductDetailId())
                     .orElseThrow(() -> new DataNotFoundException("Product detail not found")

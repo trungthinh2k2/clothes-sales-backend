@@ -11,16 +11,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class SizeServiceImpl extends BaseServiceImpl<Size, Long> implements SizeService {
 
+    @Autowired
     private SizeRepository sizeRepository;
 
     public SizeServiceImpl(JpaRepository<Size, Long> repository) {
         super(repository, Size.class);
     }
 
-    @Autowired
-    public void setSizeRepository(SizeRepository sizeRepository) {
-        this.sizeRepository = sizeRepository;
-    }
+//    @Autowired
+//    public void setSizeRepository(SizeRepository sizeRepository) {
+//        this.sizeRepository = sizeRepository;
+//    }
 
     @Override
     public void checkExistsTextSize(String textSize) throws DataExistsException {

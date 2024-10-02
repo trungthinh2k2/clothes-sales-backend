@@ -44,11 +44,11 @@ public class Order extends BaseModel{
     @Column(name = "delivery_method")
     private DeliveryMethod deliveryMethod;;
     @Column(name = "original_amount")
-    private Double originalAmount;
+    private Double originalAmount;        // tiền ban đầu
     @Column(name = "discounted_price")
-    private Double discountedPrice;
+    private Double discountedPrice;       // tiền được giảm
     @Column(name = "discounted_amount")
-    private Double  discountedAmount;
+    private Double  discountedAmount;     // tiền sau khi giảm
     @Column(name = "delivery_amount")
     private Double deliveryAmount;
 }

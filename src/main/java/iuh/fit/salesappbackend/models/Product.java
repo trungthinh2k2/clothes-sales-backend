@@ -1,7 +1,7 @@
 package iuh.fit.salesappbackend.models;
 
 import iuh.fit.salesappbackend.events.ProductEvent;
-import iuh.fit.salesappbackend.models.enums.ProductStatus;
+import iuh.fit.salesappbackend.models.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,7 +30,7 @@ public class Product extends BaseModel{
     private Integer numberOfRating;
     @Enumerated(EnumType.STRING)
     @Column(name = "product_status")
-    private ProductStatus productStatus;
+    private Status productStatus;
     @Column(name = "total_quantity")
     private Integer totalQuantity;
     @ManyToOne

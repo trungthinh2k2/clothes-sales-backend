@@ -17,13 +17,6 @@ public class ProductQuery extends BaseCustomizationRepository<Product> {
 
     private String getQuery(String query) {
 
-//        return String.format("select distinct %s " +
-//                "from Product p left join ProductPrice pp on  p.id=pp.product.id  " +
-//                "where pp.expiredDate > current date " +
-//                "and pp.discountedPrice = (select max(pp2.discountedPrice) " +
-//                "from ProductPrice pp2 where pp2.product = p) or pp.discountedPrice is null )", query);
-
-
         return String.format("select distinct %s " +
                 "from Product p " +
                 "left join ProductPrice pp " +
@@ -35,7 +28,7 @@ public class ProductQuery extends BaseCustomizationRepository<Product> {
     public PageResponse<?> getPageData(int pageNo, int pageSize, String[] search, String[] sort) {
 
 
-        StringBuilder queryBuilder = new StringBuilder(getQuery("new iuh.fit.salesappbackend.dtos.responses.products.ProductUserResponse(p, pp.discount, pp.discountedPrice, pp.expiredDate)"));
+        StringBuilder queryBuilder = new StringBuilder(getQuery("new iuh.fit.salesappbackend.dtos.responses.products.ProductUserResponse(p, pp.discount, pp.discountedPrice, pp.discountedAmount, pp.expiredDate)"));
 
         System.out.println(queryBuilder.toString());
         createQueryBuilder(search, queryBuilder, " %s p.%s %s ?%s");
