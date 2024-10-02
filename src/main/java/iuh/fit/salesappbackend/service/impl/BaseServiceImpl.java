@@ -18,7 +18,7 @@ public class BaseServiceImpl<T, ID extends Serializable>
         extends BaseCustomizationRepository<T>
         implements BaseService<T, ID>{
 
-    private JpaRepository<T, ID> repository;
+    private final JpaRepository<T, ID> repository;
 
     public BaseServiceImpl(JpaRepository<T, ID> repository, Class<T> entityClass) {
         super(entityClass);
@@ -98,7 +98,7 @@ public class BaseServiceImpl<T, ID extends Serializable>
 
     @Override
     public PageResponse<?> getPageData(int pageNo, int pageSize, String[] search, String[] sort) {
-        return null;
+        return super.getPageData(pageNo, pageSize, search, sort);
     }
 
 

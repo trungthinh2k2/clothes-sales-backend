@@ -5,7 +5,7 @@ import iuh.fit.salesappbackend.exceptions.DataNotFoundException;
 import iuh.fit.salesappbackend.models.Category;
 import iuh.fit.salesappbackend.models.Product;
 import iuh.fit.salesappbackend.models.Provider;
-import iuh.fit.salesappbackend.models.enums.ProductStatus;
+import iuh.fit.salesappbackend.models.enums.Status;
 import iuh.fit.salesappbackend.service.interfaces.CategoryService;
 import iuh.fit.salesappbackend.service.interfaces.ProviderService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class ProductMapper {
                 .productName(productDto.getProductName())
                 .price(productDto.getPrice())
                 .description(productDto.getDescription())
-                .productStatus(ProductStatus.ACTIVE)
+                .productStatus(Status.ACTIVE)
                 .category(category)
                 .provider(provider)
                 .build();

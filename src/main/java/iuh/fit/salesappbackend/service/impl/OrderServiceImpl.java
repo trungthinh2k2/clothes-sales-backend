@@ -159,7 +159,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, String> implements 
             }
         }
 
-        originalAmount = handleAmount(productOrders, order, originalAmount);
+
         order.setDiscountedAmount((originalAmount + order.getDeliveryAmount())
                 - (order.getDiscountedPrice() == null ? 0 : order.getDiscountedPrice()));
         order.setOriginalAmount(originalAmount);

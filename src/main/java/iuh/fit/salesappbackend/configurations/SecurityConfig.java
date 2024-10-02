@@ -41,14 +41,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(AbstractHttpConfigurer::disable)
+            return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(author -> {
                     author.requestMatchers("/v3/api-docs/**",
                             "/swagger-ui/**",
                             "/swagger-ui.html").permitAll();
                     author.requestMatchers("/api/v1/test/admin").hasRole("ADMIN");
                     author.requestMatchers("/api/v1/test/user").hasRole("USER");
-                    author.requestMatchers("/api/v1/auth/**").permitAll();
+                    author.requestMatchers("/api/v1/auth/**", "/api/v1/payments/**").permitAll();
                     author.requestMatchers(HttpMethod.GET,
                             "/api/v1/products/**",
                             "/api/v1/addresses/**",
@@ -67,7 +67,7 @@ public class SecurityConfig {
                     oauth2.successHandler(oauth2LoginSusscess);
                 })
                 .sessionManagement(httpSessionManagement ->
-                        httpSessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // không lưu session
+                        httpSessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(preFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

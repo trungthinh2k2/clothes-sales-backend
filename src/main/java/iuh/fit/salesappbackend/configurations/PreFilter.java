@@ -34,7 +34,6 @@ public class PreFilter extends OncePerRequestFilter {
         this.resolver = resolver;
     }
 
-
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,

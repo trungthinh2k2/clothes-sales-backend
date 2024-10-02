@@ -36,7 +36,7 @@ public class ColorController {
 
     @GetMapping("/page-color")
     public ResponseSuccess<?> getAllColor(@RequestParam(defaultValue = "1") int pageNo,
-                                          @RequestParam(defaultValue = "10") int pageSize,
+                                          @RequestParam(defaultValue = "5") int pageSize,
                                           @RequestParam(required = false) String[] sort,
                                           @RequestParam(required = false, defaultValue = "") String[] search) {
         return new ResponseSuccess<>(

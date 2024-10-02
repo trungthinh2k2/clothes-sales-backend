@@ -1,7 +1,5 @@
 package iuh.fit.salesappbackend.oauth2;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import iuh.fit.salesappbackend.dtos.responses.LoginResponse;
 import iuh.fit.salesappbackend.models.Token;
 import iuh.fit.salesappbackend.models.User;
@@ -10,7 +8,6 @@ import iuh.fit.salesappbackend.models.enums.Role;
 import iuh.fit.salesappbackend.repositories.UserRepository;
 import iuh.fit.salesappbackend.service.interfaces.JwtService;
 import iuh.fit.salesappbackend.service.interfaces.TokenService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,7 +33,6 @@ public class Oauth2LoginSusscess implements AuthenticationSuccessHandler {
     private final TokenService tokenService;
     private final JwtService jwtService;
     private final UserRepository userRepository;
-    private final ObjectMapper objectMapper;
 
     @Value("${front-end.url}")
     private String frontEndUrl;
@@ -45,7 +41,7 @@ public class Oauth2LoginSusscess implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(
             HttpServletRequest request,
             HttpServletResponse response,
-            Authentication authentication) throws IOException, ServletException {
+            Authentication authentication) throws IOException {
         log.info("Login success");
         log.info(authentication.getPrincipal().toString());
 

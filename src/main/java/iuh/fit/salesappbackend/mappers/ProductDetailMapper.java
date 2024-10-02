@@ -7,7 +7,6 @@ import iuh.fit.salesappbackend.models.Product;
 import iuh.fit.salesappbackend.models.ProductDetail;
 import iuh.fit.salesappbackend.models.Size;
 import iuh.fit.salesappbackend.service.interfaces.ColorService;
-import iuh.fit.salesappbackend.service.interfaces.ProductDetailService;
 import iuh.fit.salesappbackend.service.interfaces.ProductService;
 import iuh.fit.salesappbackend.service.interfaces.SizeService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,6 @@ public class ProductDetailMapper {
     private final ProductService productService;
     private final SizeService sizeService;
     private final ColorService colorService;
-    private final ProductDetailService productDetailService;
 
     public ProductDetail productDetailDto2ProductDetail(ProductDetailDto productDetailDto) throws DataNotFoundException {
         Product product = productService.findById(productDetailDto.getProductId())

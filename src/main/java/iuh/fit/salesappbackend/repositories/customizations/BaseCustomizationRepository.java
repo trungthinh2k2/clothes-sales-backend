@@ -7,7 +7,6 @@ import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,6 +61,7 @@ public abstract class BaseCustomizationRepository<T> {
                 Matcher matcher = FILTER_PATTERN.matcher(s);
                 if(matcher.find()) {
                     String operator = OperatorQuery.getOperator(matcher.group(2));
+//                    String operator = matcher.group(2);
                     String format = String.format(queryFormat, matcher.group(4) != null ? "or" : "and",
                             matcher.group(1), operator,
                             Arrays.stream(search).toList().indexOf(s) + 1);
@@ -77,6 +77,7 @@ public abstract class BaseCustomizationRepository<T> {
                 Matcher matcher = FILTER_PATTERN.matcher(s);
                 if (matcher.find()) {
                     String operator = OperatorQuery.getOperator(matcher.group(2));
+//                    String operator = matcher.group(2);
                     if (!operator.isEmpty()) {
                         var value = matcher.group(3);
                         if(operator.equals("like")) {

@@ -11,6 +11,7 @@ import iuh.fit.salesappbackend.service.interfaces.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -55,11 +56,19 @@ public class ProductController {
                                           @RequestParam(required = false, defaultValue = "") String[] search
                                           )
             throws JsonProcessingException {
-        return new ResponseSuccess<>(
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
+        Response response = new ResponseSuccess<>(
                 HttpStatus.OK.value(),
                 "Get all products successfully",
                 productService.getProductsForUserRole(pageNo, pageSize, search, sort)
         );
+
+        stopWatch.stop();
+        System.out.println("Thời gian chạy của pageProduct: " + stopWatch.getTotalTimeMillis() + "ms");
+
+        return response;
     }
 
     @GetMapping("/page-product-criteria")

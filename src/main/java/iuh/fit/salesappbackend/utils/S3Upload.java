@@ -42,7 +42,6 @@ public class S3Upload {
     }
 
     public String generateUniqueKey(String originalFileName) {
-//        return System.currentTimeMillis() + "_" + originalFileName;
         return UUID.randomUUID().toString() + "_" + originalFileName;
     }
 

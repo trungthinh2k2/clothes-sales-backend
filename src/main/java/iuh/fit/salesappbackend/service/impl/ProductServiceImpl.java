@@ -168,5 +168,4 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
         }
         return result;
     }
-
 }

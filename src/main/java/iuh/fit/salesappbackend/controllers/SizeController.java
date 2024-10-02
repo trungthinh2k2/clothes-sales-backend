@@ -26,7 +26,7 @@ public class SizeController {
         return new ResponseSuccess<>(
                 HttpStatus.OK.value(),
                 "Create size successfully",
-                sizeService.save(sizeMapper.sizeDto2Size(sizeDto))
+                sizeService.save(size)
         );
     }
 
@@ -45,6 +45,18 @@ public class SizeController {
         return new ResponseSuccess<>(
                 HttpStatus.NO_CONTENT.value(),
                 "Size deleted successfully with id: " + id
+        );
+    }
+
+    @GetMapping("/page-size")
+    public ResponseSuccess<?> getAllSizeWithPage(@RequestParam(defaultValue = "1") int pageNo,
+                                          @RequestParam(defaultValue = "5") int pageSize,
+                                          @RequestParam(required = false) String[] sort,
+                                          @RequestParam(required = false, defaultValue = "") String[] search) {
+        return new ResponseSuccess<>(
+                HttpStatus.OK.value(),
+                "Get size successfully with page",
+                sizeService.getPageData(pageNo, pageSize, search, sort)
         );
     }
 }

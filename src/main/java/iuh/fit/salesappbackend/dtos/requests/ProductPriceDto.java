@@ -1,6 +1,5 @@
 package iuh.fit.salesappbackend.dtos.requests;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

@@ -10,15 +10,12 @@ import iuh.fit.salesappbackend.repositories.TokenRepository;
 import iuh.fit.salesappbackend.repositories.UserRepository;
 import iuh.fit.salesappbackend.service.interfaces.UserService;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User, Long> implements UserService {

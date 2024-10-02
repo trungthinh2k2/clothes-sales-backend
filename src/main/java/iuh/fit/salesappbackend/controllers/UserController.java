@@ -4,7 +4,6 @@ import iuh.fit.salesappbackend.dtos.requests.ChangePasswordRequest;
 import iuh.fit.salesappbackend.dtos.requests.UserDto;
 import iuh.fit.salesappbackend.dtos.responses.Response;
 import iuh.fit.salesappbackend.dtos.responses.ResponseSuccess;
-import iuh.fit.salesappbackend.exceptions.DataNotFoundException;
 import iuh.fit.salesappbackend.mappers.UserMapper;
 import iuh.fit.salesappbackend.models.User;
 import iuh.fit.salesappbackend.service.interfaces.UserService;

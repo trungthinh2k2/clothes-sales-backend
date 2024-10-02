@@ -1,9 +1,7 @@
 package iuh.fit.salesappbackend.dtos.requests;
 
-import iuh.fit.salesappbackend.models.Voucher;
 import iuh.fit.salesappbackend.models.enums.DeliveryMethod;
 import iuh.fit.salesappbackend.models.enums.PaymentMethod;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
