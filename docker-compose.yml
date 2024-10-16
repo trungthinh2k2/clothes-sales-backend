@@ -64,6 +64,8 @@ services:
     depends_on:
       - postgres-db
       - redis-container
+    env_file:
+      - .env
     restart: unless-stopped
 
 networks:

@@ -1,0 +1,69 @@
+spring:
+  application:
+    name: sales-app-backend
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/salesdb
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  flyway:
+    locations: classpath:/dev/db/migration
+    baseline-on-migrate: true
+    baseline-version: 1
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: trungthinh2k2@gmail.com
+    password: kcoc zfik rfkt jeng
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  security:
+    oauth2:
+      client:
+        registration:
+            google:
+                client-id: ${GOOGLE_CLIENT_ID}
+                client-secret: ${GOOGLE_CLIENT_SECRET}
+            facebook:
+                client-id: ${FACEBOOK_CLIENT_ID}
+                client-secret: ${FACEBOOK_CLIENT_SECRET}
+jwt:
+  expiryDate: 86400
+cloudinary:
+  name: drprfsffb
+  key: env.CLOUDINARY_KEY
+  secret: env.CLOUDINARY_SECRET
+aws-s3:
+  access-key: ${ACCESS_KEY}
+  secret-key: ${SECRET_KEY}
+  region: ap-southeast-1
+  bucket-name: sales-app-bucket-be
+delivery:
+  EXPRESS: 15000
+  ECONOMY: 10000
+front-end:
+  url: http://localhost:5173
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
