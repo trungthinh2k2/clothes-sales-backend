@@ -5,6 +5,7 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
+
 name: Java CI with Maven
 
 on:
@@ -49,11 +50,6 @@ jobs:
             sleep 5
           done
 
-      - name: Set environment variables
-        env:
-          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-
       - name: Build with Maven
         env:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
@@ -69,3 +65,4 @@ jobs:
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
