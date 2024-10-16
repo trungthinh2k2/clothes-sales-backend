@@ -67,6 +67,7 @@ services:
       - postgres-db
       - redis-container
     restart: unless-stopped
+    entrypoint: ["sh", "-c", "until pg_isready -h postgres-db -p 5432; do echo waiting for postgres; sleep 2; done; java -jar /app.jar"]
 
 networks:
   sales-app-network:

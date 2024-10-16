@@ -5,8 +5,7 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-
-name: Java CI with Maven
+name: CI with Maven and Docker Compose
 
 on:
   push:
@@ -18,16 +17,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_DB: salesdb
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: 123456
-        ports:
-          - 5432:5432
-
     steps:
       - uses: actions/checkout@v4
 
@@ -38,17 +27,16 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Wait for PostgreSQL to be ready
+      - name: Install Docker Compose
         run: |
-          echo "Waiting for PostgreSQL to be ready..."
-          for i in {1..12}; do
-            if pg_isready -h localhost -p 5432; then
-              echo "PostgreSQL is ready!"
-              break
-            fi
-            echo "PostgreSQL is not ready yet... retrying in 5 seconds"
-            sleep 5
-          done
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Start services with Docker Compose
+        run: docker-compose up --build -d
+
+      - name: Wait for services to be ready
+        run: sleep 30
 
       - name: Build with Maven
         env:
@@ -56,10 +44,13 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: mvn clean install
 
+      - name: Tear down Docker Compose
+        run: docker-compose down
+
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          image: trungthinh08062k2/sales
+          image: trungthinh08062k2/sales-app
           tags: latest
           registry: docker.io
           dockerfile: Dockerfile
