@@ -47,6 +47,8 @@ jobs:
           echo "PostgreSQL is not ready yet... retrying in 5 seconds"
           sleep 5
         done
+    - name: Set environment variables
+      run: echo "ACCESS_KEY=${{ secrets.ACCESS_KEY }}"
 
     - name: Build with Maven
       run: mvn clean install
