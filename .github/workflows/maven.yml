@@ -18,10 +18,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Bước check out mã nguồn
       - uses: actions/checkout@v4
 
-      # Cài đặt JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -29,36 +27,39 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      # Cài đặt Docker Compose (nếu chưa có sẵn)
       - name: Install Docker Compose
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
 
-      # Khởi động Docker Compose
       - name: Start services with Docker Compose
         run: docker-compose up --build -d
 
-      # Chờ cho các dịch vụ sẵn sàng
       - name: Wait for services to be ready
-        run: sleep 30
+        run: |
+          # Kiểm tra kết nối đến PostgreSQL
+          for i in {1..30}; do
+            if pg_isready -h localhost -p 5432; then
+              echo "PostgreSQL is ready!"
+              break
+            fi
+            echo "Waiting for PostgreSQL..."
+            sleep 1
+          done
 
-      # Chạy build với Maven
       - name: Build with Maven
         env:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: mvn clean install
 
-      # Dừng và gỡ bỏ các container sau khi build xong
       - name: Tear down Docker Compose
         run: docker-compose down
 
-      # Build và push Docker image lên Docker Hub
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          image: trungthinh08062k2/sales
+          image: trungthinh08062k2/sales-app
           tags: latest
           registry: docker.io
           dockerfile: Dockerfile

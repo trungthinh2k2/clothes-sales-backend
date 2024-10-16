@@ -61,12 +61,13 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/salesdb
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 123456
+      AWS_ACCESS_KEY_ID: ${ACCESS_KEY}
+      AWS_SECRET_ACCESS_KEY: ${SECRET_KEY}
     depends_on:
       - postgres-db
       - redis-container
-    env_file:
-      - .env
     restart: unless-stopped
+    entrypoint: ["sh", "-c", "until pg_isready -h postgres-db -p 5432; do echo waiting for postgres; sleep 2; done; java -jar /app.jar"]
 
 networks:
   sales-app-network:
