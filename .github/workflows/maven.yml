@@ -48,7 +48,9 @@ jobs:
           sleep 5
         done
     - name: Set environment variables
-      run: echo "ACCESS_KEY=${{ secrets.ACCESS_KEY }}"
+      run: |
+        echo "ACCESS_KEY=${{ secrets.ACCESS_KEY }}"
+        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}"
 
     - name: Build with Maven
       run: mvn clean install
