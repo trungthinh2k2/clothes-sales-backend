@@ -9,13 +9,19 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123456
-      PG_DATABASE: salesdb
-      PG_DATA: /data/postgres
+      POSTGRES_DB: salesdb
+      PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
     networks:
       - sales-app-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d salesdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   postgres-admin:
     container_name: postgres-admin
     image: dpage/pgadmin4
@@ -30,10 +36,11 @@ services:
     networks:
       - sales-app-network
     restart: unless-stopped
+
   redis-container:
     container_name: redis-container
     image: redis:latest
-    restart: always
+    restart: unless-stopped
     ports:
       - "6379:6379"
     volumes:
@@ -41,9 +48,28 @@ services:
     networks:
       - sales-app-network
 
+  sales-app:
+    container_name: sales-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - sales-app-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/salesdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456
+    depends_on:
+      - postgres-db
+      - redis-container
+    restart: unless-stopped
+
 networks:
   sales-app-network:
     driver: bridge
+
 volumes:
   postgres:
   pgadmin:
