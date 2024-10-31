@@ -145,8 +145,8 @@ services:
       - postgres-db
       - redis-container
     restart: unless-stopped
-    env_file:
-      - .env
+#    env_file:
+#      - .env
 #    entrypoint: ["sh", "-c", "until nc -z postgres-db 5432; do echo waiting for postgres; sleep 2; done; java -jar /app.jar"]
 
 networks:
