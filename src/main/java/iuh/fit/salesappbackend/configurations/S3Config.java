@@ -13,9 +13,9 @@ import software.amazon.awssdk.transfer.s3.SizeConstant;
 @Configuration
 public class S3Config {
 
-    @Value("${aws-s3.access-key}")
+    @Value("${aws-s3.AWS_ACCESS_KEY_ID}")
     private String accessKey;
-    @Value("${aws-s3.secret-key}")
+    @Value("${aws-s3.AWS_SECRET_ACCESS_KEY}")
     private String secretKey;
 
 

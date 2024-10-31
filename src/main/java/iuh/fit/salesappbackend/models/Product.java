@@ -18,18 +18,20 @@ public class Product extends BaseModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
-    @Column(name = "product_name")
+    @Column(name = "product_name", length = 500)
     private String productName;
     @Column(columnDefinition = "DECIMAL(10,2)")
     private Double price;
     @Column(name = "avg_rating",columnDefinition = "DECIMAL(10,1)")
     private Float avgRating;;
+    @Column(name = "description", length = 5000)
     private String description;
+    @Column(name = "thumbnail", length = 5000)
     private String thumbnail;
     @Column(name = "number_of_rating")
     private Integer numberOfRating;
     @Enumerated(EnumType.STRING)
-    @Column(name = "product_status")
+    @Column(name = "product_status", length = 500)
     private Status productStatus;
     @Column(name = "total_quantity")
     private Integer totalQuantity;

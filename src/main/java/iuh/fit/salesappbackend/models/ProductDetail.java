@@ -10,6 +10,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@NamedEntityGraphs(
+        @NamedEntityGraph(
+                name = "product_detail-entity-graph",
+                includeAllAttributes = true
+        )
+)
 public class ProductDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
