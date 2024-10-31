@@ -23,4 +23,8 @@ public class Size {
     private Integer numberSize;
     @Column(name = "text_size")
     private String textSize;
+
+    public Size(Long id) {
+        this.id = id;
+    }
 }

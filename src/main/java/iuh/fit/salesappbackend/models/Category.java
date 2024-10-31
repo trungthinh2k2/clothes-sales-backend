@@ -20,4 +20,8 @@ public class Category {
     @Enumerated(EnumType.STRING)
     @Column(name = "category_status", nullable = false)
     private Status status;
+
+    public Category(Long id) {
+        this.id = id;
+    }
 }

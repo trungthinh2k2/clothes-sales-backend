@@ -6,9 +6,11 @@ import iuh.fit.salesappbackend.exceptions.DataNotFoundException;
 import iuh.fit.salesappbackend.models.Token;
 import iuh.fit.salesappbackend.models.User;
 import iuh.fit.salesappbackend.models.UserDetail;
+import iuh.fit.salesappbackend.models.enums.Role;
 import iuh.fit.salesappbackend.repositories.TokenRepository;
 import iuh.fit.salesappbackend.repositories.UserRepository;
 import iuh.fit.salesappbackend.service.interfaces.UserService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -64,5 +66,18 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
                 .orElseThrow(() -> new DataNotFoundException("User not found"));
     }
 
+    @PostConstruct
+    public void createAdminAccount() {
+        User user = new User();
+        user.setEmail("admin@gmail.com");
+        user.setPassword(passwordEncoder.encode("admin"));
+        user.setName("admin");
+        user.setRole(Role.ROLE_ADMIN);
+        user.setVerify(true);
+        user.setPhoneNumber("");
+        if (!userRepository.existsByEmail(user.getEmail())) {
+            userRepository.save(user);
+        }
+    }
 
 }

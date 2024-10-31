@@ -27,4 +27,8 @@ public class Provider {
     @Enumerated(EnumType.STRING)
     @Column(name = "provider_status", nullable = false)
     private Status status;
+
+    public Provider(Long id) {
+        this.id = id;
+    }
 }

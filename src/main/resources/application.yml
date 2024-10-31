@@ -3,7 +3,7 @@ spring:
     name: sales-app-backend
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -17,10 +17,10 @@ spring:
     redis:
       host: localhost
       port: 6379
-  flyway:
-    locations: classpath:/dev/db/migration
-    baseline-on-migrate: true
-    baseline-version: 1
+#  flyway:
+#    locations: classpath:/dev/db/migration
+#    baseline-on-migrate: true
+#    baseline-version: 1
   servlet:
     multipart:
       max-file-size: 25MB
@@ -53,8 +53,8 @@ cloudinary:
   key: env.CLOUDINARY_KEY
   secret: env.CLOUDINARY_SECRET
 aws-s3:
-  access-key: ${ACCESS_KEY}
-  secret-key: ${SECRET_KEY}
+  AWS_ACCESS_KEY_ID: ${ACCESS_KEY}
+  AWS_SECRET_ACCESS_KEY: ${SECRET_KEY}
   region: ap-southeast-1
   bucket-name: sales-app-bucket-be
 delivery:

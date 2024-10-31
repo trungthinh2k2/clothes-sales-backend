@@ -17,4 +17,8 @@ public class Color {
     private Long id;
     @Column(name = "color_name")
     private String colorName;
+
+    public Color(Long id) {
+        this.id = id;
+    }
 }
